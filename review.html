@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ôn Tập Toán Đại Cương — Final Exam</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --primary: #1a56db;
+    --primary-dark: #1e40af;
+    --primary-light: #dbeafe;
+    --accent: #0e9f6e;
+    --accent-light: #d1fae5;
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --correct: #16a34a;
+    --wrong: #dc2626;
+    --code-bg: #f1f5f9;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  /* ── Navigation ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--primary);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  nav .nav-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav .nav-inner::-webkit-scrollbar { display: none; }
+  nav a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 14px 12px;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  nav a:hover, nav a.active {
+    color: #fff;
+    border-bottom-color: #fff;
+  }
+
+  /* ── Header ── */
+  header {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+    color: #fff;
+    text-align: center;
+    padding: 48px 20px 40px;
+  }
+  header h1 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  header p {
+    font-size: 1rem;
+    opacity: 0.85;
+  }
+  header .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 13px;
+    margin-top: 12px;
+  }
+
+  /* ── Main Layout ── */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 16px 80px;
+  }
+
+  /* ── Section ── */
+  .section {
+    background: var(--surface);
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    margin-bottom: 32px;
+    overflow: hidden;
+  }
+  .section-header {
+    background: var(--primary);
+    color: #fff;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-header h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+  .section-header .part-num {
+    background: rgba(255,255,255,0.25);
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .section-body { padding: 28px 24px; }
+
+  /* ── Subsection ── */
+  .subsection { margin-bottom: 32px; }
+  .subsection:last-child { margin-bottom: 0; }
+  .subsection-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 14px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--primary-light);
+  }
+
+  /* ── Tables ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 14.5px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  thead { background: var(--primary-light); }
+  th {
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 600;
+    color: var(--primary-dark);
+    border-bottom: 2px solid var(--primary);
+  }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--code-bg); }
+
+  /* ── Formula boxes ── */
+  .formula-box {
+    background: var(--code-bg);
+    border-left: 4px solid var(--primary);
+    border-radius: 0 8px 8px 0;
+    padding: 12px 18px;
+    margin: 10px 0;
+    font-size: 15px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .formula-box .formula-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  /* ── Lists ── */
+  ul, ol {
+    padding-left: 22px;
+    margin: 8px 0;
+  }
+  li { margin-bottom: 4px; }
+  li strong { color: var(--primary-dark); }
+
+  /* ── Note / Tip boxes ── */
+  .note {
+    background: #fffbeb;
+    border-left: 4px solid #f59e0b;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 16px;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  .note-title {
+    font-weight: 700;
+    color: #92400e;
+    margin-bottom: 4px;
+  }
+
+  /* ── Quiz ── */
+  .quiz-header {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border: 1px solid #bae6fd;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .quiz-header span {
+    font-size: 28px;
+  }
+  .quiz-header p {
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .quiz-header strong { color: var(--primary); font-size: 15px; }
+
+  .question {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    background: var(--surface);
+    transition: box-shadow 0.2s;
+  }
+  .question:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .question:last-child { margin-bottom: 0; }
+
+  .q-num {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    text-align: center;
+    line-height: 26px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-right: 8px;
+  }
+  .q-text {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  .options { list-style: none; padding: 0; margin-bottom: 14px; }
+  .options li {
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    margin-bottom: 6px;
+    font-size: 14.5px;
+    cursor: default;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .options li:hover { background: var(--code-bg); }
+  .options li .opt-letter {
+    font-weight: 700;
+    color: var(--primary);
+    margin-right: 8px;
+  }
+
+  .reveal-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: inherit;
+  }
+  .reveal-btn:hover { background: var(--primary-dark); }
+  .reveal-btn.revealed { background: var(--text-muted); cursor: default; }
+
+  .answer-box {
+    display: none;
+    margin-top: 14px;
+    padding: 14px 18px;
+    background: var(--accent-light);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    font-size: 14.5px;
+    animation: fadeIn 0.3s ease;
+  }
+  .answer-box.show { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .answer-box .correct-line {
+    font-weight: 700;
+    color: var(--correct);
+    margin-bottom: 6px;
+  }
+  .answer-box .explanation { color: var(--text); font-size: 14px; line-height: 1.6; }
+
+  /* ── Summary Table ── */
+  .summary-section {
+    background: var(--surface);
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    margin-bottom: 32px;
+    overflow: hidden;
+  }
+  .summary-header {
+    background: var(--primary-dark);
+    color: #fff;
+    padding: 16px 24px;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .summary-body { padding: 24px; }
+
+  /* ── Back to top ── */
+  .back-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    text-decoration: none;
+  }
+  .back-top:hover { background: var(--primary-dark); }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .section-body { padding: 20px 16px; }
+    nav a { padding: 12px 8px; font-size: 12px; }
+    header { padding: 32px 16px 28px; }
+    table { font-size: 13px; }
+    th, td { padding: 8px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-inner">
+    <a href="#lythuyet">Lý thuyết</a>
+    <a href="#phan1">Phần 1 · ĐSTT</a>
+    <a href="#phan2">Phần 2 · Vi tích phân 1 biến</a>
+    <a href="#phan3">Phần 3 · Vi tích phân nhiều biến</a>
+    <a href="#tracnghiem">Trắc nghiệm</a>
+    <a href="#dapan">Đáp án</a>
+  </div>
+</nav>
+
+<!-- Header -->
+<header>
+  <h1>Ôn Tập Toán Đại Cương</h1>
+  <p>Tổng hợp kiến thức &amp; Trắc nghiệm — Final Exam</p>
+  <span class="badge">📅 Tài liệu tổng hợp 2026</span>
+</header>
+
+<main>
+
+<!-- ====================== PHẦN 1: ĐẠI SỐ TUYẾN TÍNH ====================== -->
+<section class="section" id="phan1">
+  <div class="section-header">
+    <span class="part-num">PHẦN I</span>
+    <h2>Đại Số Tuyến Tính</h2>
+  </div>
+  <div class="section-body">
+
+    <!-- 1.1 Ma trận -->
+    <div class="subsection">
+      <div class="subsection-title">1.1 Ma trận (Matrix)</div>
+
+      <p><strong>Định nghĩa:</strong> Ma trận A kích thước <em>m × n</em> là bảng chữ nhật gồm <em>m</em> hàng, <em>n</em> cột các số thực (hoặc phức). Phần tử ở hàng <em>i</em>, cột <em>j</em> ký hiệu <em>a<sub>ij</sub></em>.</p>
+
+      <p style="margin-top:12px"><strong>Các loại ma trận đặc biệt:</strong></p>
+      <ul>
+        <li><strong>Ma trận không</strong> O<sub>m×n</sub>: mọi phần tử bằng 0</li>
+        <li><strong>Ma trận đơn vị</strong> I<sub>n</sub>: a<sub>ii</sub> = 1, a<sub>ij</sub> = 0 (i ≠ j)</li>
+        <li><strong>Ma trận chéo</strong>: a<sub>ij</sub> = 0 (i ≠ j)</li>
+        <li><strong>Ma trận tam giác trên</strong>: a<sub>ij</sub> = 0 (i &gt; j)</li>
+        <li><strong>Ma trận tam giác dưới</strong>: a<sub>ij</sub> = 0 (i &lt; j)</li>
+        <li><strong>Ma trận đối xứng</strong>: A = A<sup>T</sup> (a<sub>ij</sub> = a<sub>ji</sub>)</li>
+        <li><strong>Ma trận phản đối xứng</strong>: A = −A<sup>T</sup> (a<sub>ij</sub> = −a<sub>ji</sub>)</li>
+      </ul>
+
+      <p style="margin-top:14px"><strong>Phép toán ma trận:</strong></p>
+      <ul>
+        <li><strong>Cộng / Trừ:</strong> (A ± B)<sub>ij</sub> = a<sub>ij</sub> ± b<sub>ij</sub> (cùng kích thước)</li>
+        <li><strong>Nhân vô hướng:</strong> (kA)<sub>ij</sub> = k · a<sub>ij</sub></li>
+        <li><strong>Nhân ma trận:</strong> (AB)<sub>ij</sub> = Σ<sub>k</sub> a<sub>ik</sub> · b<sub>kj</sub> (số cột A = số hàng B)</li>
+      </ul>
+
+      <div class="note">
+        <div class="note-title">⚠ Lưu ý quan trọng</div>
+        Phép nhân ma trận <strong>không giao hoán</strong>: AB ≠ BA (nói chung). Cần chú ý thứ tự khi nhân.
+      </div>
+
+      <p style="margin-top:14px"><strong>Tính chất:</strong></p>
+      <ul>
+        <li>A(BC) = (AB)C</li>
+        <li>A(B+C) = AB + AC</li>
+        <li>AI = IA = A</li>
+      </ul>
+
+      <p style="margin-top:14px"><strong>Ma trận chuyển vị</strong> A<sup>T</sup>: (A<sup>T</sup>)<sub>ij</sub> = a<sub>ji</sub></p>
+      <div class="formula-box">
+        <div class="formula-label">Tính chất chuyển vị</div>
+        (AB)<sup>T</sup> = B<sup>T</sup>A<sup>T</sup> &nbsp;|&nbsp; (A<sup>T</sup>)<sup>T</sup> = A &nbsp;|&nbsp; (A+B)<sup>T</sup> = A<sup>T</sup> + B<sup>T</sup>
+      </div>
+    </div>
+
+    <!-- 1.2 Định thức -->
+    <div class="subsection">
+      <div class="subsection-title">1.2 Định thức (Determinant)</div>
+
+      <p>Định thức chỉ tính được cho <strong>ma trận vuông</strong>. Ký hiệu: det(A) hoặc |A|.</p>
+
+      <p style="margin-top:10px"><strong>Công thức cơ bản:</strong></p>
+      <table>
+        <thead><tr><th>Cấp</th><th>Công thức</th></tr></thead>
+        <tbody>
+          <tr><td>Cấp 1</td><td>det([a]) = a</td></tr>
+          <tr><td>Cấp 2</td><td>|a&nbsp;&nbsp;b; c&nbsp;&nbsp;d| = ad − bc</td></tr>
+          <tr><td>Cấp 3</td><td>Quy tắc Sarrus (xem bên dưới)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="formula-box">
+        <div class="formula-label">Quy tắc Sarrus (cấp 3)</div>
+        det(A) = a₁₁a₂₂a₃₃ + a₁₂a₂₃a₃₁ + a₁₃a₂₁a₃₂<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;− a₁₃a₂₂a₃₁ − a₁₂a₂₁a₃₃ − a₁₁a₂₃a₃₂<br><br>
+        <span style="font-size:13px;color:var(--text-muted)">→ Nhân 3 đường chéo chính (dương) − 3 đường chéo phụ (âm)</span>
+      </div>
+
+      <p style="margin-top:14px"><strong>Khai triển Laplace (mọi cấp):</strong></p>
+      <ul>
+        <li><strong>Phần bù đại số</strong>: A<sub>ij</sub> = (−1)<sup>i+j</sup> · M<sub>ij</sub>, trong đó M<sub>ij</sub> là định thức con sau khi xóa hàng i, cột j</li>
+        <li><strong>Khai triển theo hàng i</strong>: det(A) = Σ<sub>j</sub> a<sub>ij</sub> · A<sub>ij</sub></li>
+        <li><strong>Khai triển theo cột j</strong>: det(A) = Σ<sub>i</sub> a<sub>ij</sub> · A<sub>ij</sub></li>
+      </ul>
+
+      <div class="note">
+        <div class="note-title">💡 Mẹo</div>
+        Khai triển Laplace theo hàng/cột có nhiều số 0 nhất để tính nhanh.
+      </div>
+
+      <p style="margin-top:14px"><strong>8 tính chất quan trọng:</strong></p>
+      <table>
+        <thead><tr><th>#</th><th>Tính chất</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>det(A<sup>T</sup>) = det(A)</td></tr>
+          <tr><td>2</td><td>Đổi chỗ 2 hàng (cột) → đổi dấu det</td></tr>
+          <tr><td>3</td><td>Nhân 1 hàng (cột) với k → det nhân thêm k</td></tr>
+          <tr><td>4</td><td>det(kA) = k<sup>n</sup> · det(A) (cấp n)</td></tr>
+          <tr><td>5</td><td>Cộng bội của 1 hàng vào hàng khác → det không đổi</td></tr>
+          <tr><td>6</td><td>2 hàng (cột) tỉ lệ → det = 0</td></tr>
+          <tr><td>7</td><td>det(AB) = det(A) · det(B)</td></tr>
+          <tr><td>8</td><td>det(A<sup>−1</sup>) = 1 / det(A)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 1.3 Hệ phương trình tuyến tính -->
+    <div class="subsection">
+      <div class="subsection-title">1.3 Hệ phương trình tuyến tính (Linear Systems)</div>
+
+      <p><strong>Dạng tổng quát:</strong> m phương trình, n ẩn số. Dạng ma trận: Ax = b. Ma trận hệ số A, vector ẩn x, vector vế phải b.</p>
+
+      <div class="formula-box">
+        <div class="formula-label">Định lý Kronecker–Capelli</div>
+        Hệ Ax = b có nghiệm ⇔ rank(A) = rank(A|b)<br><br>
+        • r(A) = r(A|b) = n &nbsp;→&nbsp; <strong>nghiệm duy nhất</strong><br>
+        • r(A) = r(A|b) = r &lt; n &nbsp;→&nbsp; <strong>vô số nghiệm</strong>, n−r ẩn tự do<br>
+        • r(A) ≠ r(A|b) &nbsp;→&nbsp; <strong>vô nghiệm</strong>
+      </div>
+
+      <p style="margin-top:14px"><strong>Phương pháp giải:</strong></p>
+      <ul>
+        <li><strong>Khử Gauss:</strong> Đưa ma trận hệ số về dạng bậc thang bằng 3 phép biến đổi sơ cấp dòng, rồi giải ngược.</li>
+        <li><strong>Quy tắc Cramer</strong> (khi det(A) ≠ 0): x<sub>i</sub> = D<sub>i</sub> / D, với D<sub>i</sub> là det(A) thay cột i bằng vector b.</li>
+        <li><strong>Ma trận nghịch đảo</strong>: x = A<sup>−1</sup> · b (khi det(A) ≠ 0)</li>
+      </ul>
+    </div>
+
+    <!-- 1.4 Hạng ma trận & Ma trận nghịch đảo -->
+    <div class="subsection">
+      <div class="subsection-title">1.4 Hạng ma trận &amp; Ma trận nghịch đảo</div>
+
+      <p><strong>Hạng ma trận</strong> rank(A) = cấp cao nhất của định thức con khác 0. Tính bằng Gauss: đưa về dạng bậc thang, đếm số dòng khác 0.</p>
+      <div class="formula-box">
+        <div class="formula-label">Điều kiện khả nghịch</div>
+        A vuông cấp n khả nghịch ⇔ det(A) ≠ 0 ⇔ rank(A) = n
+      </div>
+
+      <p style="margin-top:14px"><strong>Ma trận nghịch đảo:</strong></p>
+      <ul>
+        <li><strong>Công thức qua ma trận phó:</strong> A<sup>−1</sup> = adj(A) / det(A), trong đó adj(A) = (A<sub>ji</sub>) — ma trận phó chuyển vị</li>
+        <li><strong>Phương pháp Gauss–Jordan:</strong> [A | I] → biến đổi sơ cấp → [I | A<sup>−1</sup>]</li>
+      </ul>
+
+      <div class="formula-box">
+        <div class="formula-label">Tính chất nghịch đảo</div>
+        (A<sup>−1</sup>)<sup>−1</sup> = A &nbsp;|&nbsp; (AB)<sup>−1</sup> = B<sup>−1</sup>A<sup>−1</sup> &nbsp;|&nbsp; (A<sup>T</sup>)<sup>−1</sup> = (A<sup>−1</sup>)<sup>T</sup>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====================== PHẦN 2: VI TÍCH PHÂN 1 BIẾN ====================== -->
+<section class="section" id="phan2">
+  <div class="section-header">
+    <span class="part-num">PHẦN II</span>
+    <h2>Vi Tích Phân Một Biến</h2>
+  </div>
+  <div class="section-body">
+
+    <!-- 2.1 Giới hạn -->
+    <div class="subsection">
+      <div class="subsection-title">2.1 Giới hạn (Limits)</div>
+
+      <p><strong>7 dạng vô định:</strong></p>
+      <table>
+        <thead><tr><th>Dạng</th><th>Tên gọi</th><th>Phương pháp</th></tr></thead>
+        <tbody>
+          <tr><td>0/0</td><td>Zero chia zero</td><td>L'Hôpital; phân tích; nhân liên hợp</td></tr>
+          <tr><td>∞/∞</td><td>Vô cùng chia vô cùng</td><td>L'Hôpital; chia cho lũy thừa cao nhất</td></tr>
+          <tr><td>∞ − ∞</td><td>Vô cùng trừ vô cùng</td><td>Biến đổi về 0/0 (liên hợp; quy đồng)</td></tr>
+          <tr><td>0 · ∞</td><td>Zero nhân vô cùng</td><td>Viết lại thành 0/0 hoặc ∞/∞</td></tr>
+          <tr><td>1<sup>∞</sup></td><td>Một mũ vô cùng</td><td>u<sup>v</sup> = e<sup>lim(v·ln u)</sup>; dùng giới hạn e</td></tr>
+          <tr><td>0<sup>0</sup></td><td>Zero mũ zero</td><td>Lấy log → 0·∞ → L'Hôpital</td></tr>
+          <tr><td>∞<sup>0</sup></td><td>Vô cùng mũ zero</td><td>Lấy log → 0·∞ → L'Hôpital</td></tr>
+        </tbody>
+      </table>
+
+      <p style="margin-top:16px"><strong>Hai giới hạn cơ bản:</strong></p>
+      <div class="formula-box">
+        <div class="formula-label">Giới hạn cơ bản</div>
+        lim<sub>x→0</sub> sin(x)/x = 1<br>
+        lim<sub>x→0</sub> (1+x)<sup>1/x</sup> = e &nbsp;&nbsp;≡&nbsp;&nbsp; lim<sub>n→∞</sub> (1 + 1/n)<sup>n</sup> = e
+      </div>
+
+      <p style="margin-top:14px"><strong>Quy tắc L'Hôpital:</strong> Nếu lim f(x)/g(x) cho dạng 0/0 hoặc ∞/∞, thì:</p>
+      <div class="formula-box">
+        <div class="formula-label">L'Hôpital</div>
+        lim<sub>x→a</sub> f(x)/g(x) = lim<sub>x→a</sub> f'(x)/g'(x) &nbsp;(nếu giới hạn phải tồn tại)
+      </div>
+      <div class="note">
+        <div class="note-title">💡 Mẹo</div>
+        Có thể áp dụng L'Hôpital nhiều lần liên tiếp. Mỗi lần cần kiểm tra lại dạng vô định trước khi áp dụng tiếp.
+      </div>
+
+      <p style="margin-top:14px"><strong>Tương đương bậc nhỏ (x → 0):</strong></p>
+      <div class="formula-box">
+        sin x ~ x &nbsp;|&nbsp; tan x ~ x &nbsp;|&nbsp; arcsin x ~ x &nbsp;|&nbsp; arctan x ~ x<br>
+        ln(1+x) ~ x &nbsp;|&nbsp; e<sup>x</sup> − 1 ~ x &nbsp;|&nbsp; (1+x)<sup>α</sup> − 1 ~ αx<br>
+        1 − cos x ~ x²/2
+      </div>
+    </div>
+
+    <!-- 2.2 Liên tục -->
+    <div class="subsection">
+      <div class="subsection-title">2.2 Liên tục (Continuity)</div>
+
+      <p><strong>Định nghĩa:</strong> f liên tục tại x₀ khi và chỉ khi:</p>
+      <div class="formula-box">
+        lim<sub>x→x₀</sub> f(x) = f(x₀) &nbsp;(tồn tại, hữu hạn, bằng giá trị hàm)
+      </div>
+
+      <p style="margin-top:14px"><strong>Định lý quan trọng:</strong></p>
+      <ul>
+        <li><strong>Định lý Bolzano:</strong> Nếu f liên tục trên [a,b] và f(a)·f(b) &lt; 0, thì ∃c ∈ (a,b) sao cho f(c) = 0.</li>
+        <li><strong>Định lý Weierstrass:</strong> Nếu f liên tục trên [a,b] đóng, bị chặn, thì f đạt giá trị lớn nhất và nhỏ nhất trên [a,b].</li>
+      </ul>
+    </div>
+
+    <!-- 2.3 Đạo hàm & Vi phân -->
+    <div class="subsection">
+      <div class="subsection-title">2.3 Đạo hàm &amp; Vi phân (Derivatives &amp; Differentials)</div>
+
+      <p><strong>Định nghĩa:</strong> f'(x₀) = lim<sub>h→0</sub> [f(x₀+h) − f(x₀)] / h. Khả vi ⇒ Liên tục (chiều ngược không đúng).</p>
+
+      <p style="margin-top:10px"><strong>Bảng đạo hàm:</strong></p>
+      <table>
+        <thead><tr><th>Hàm</th><th>Đạo hàm</th></tr></thead>
+        <tbody>
+          <tr><td>c</td><td>0</td></tr>
+          <tr><td>x<sup>n</sup></td><td>n·x<sup>n−1</sup></td></tr>
+          <tr><td>e<sup>x</sup></td><td>e<sup>x</sup></td></tr>
+          <tr><td>a<sup>x</sup></td><td>a<sup>x</sup> · ln a</td></tr>
+          <tr><td>ln x</td><td>1/x</td></tr>
+          <tr><td>sin x</td><td>cos x</td></tr>
+          <tr><td>cos x</td><td>−sin x</td></tr>
+          <tr><td>tan x</td><td>1/cos²x = sec²x</td></tr>
+          <tr><td>cot x</td><td>−1/sin²x = −csc²x</td></tr>
+          <tr><td>arcsin x</td><td>1/√(1−x²)</td></tr>
+          <tr><td>arccos x</td><td>−1/√(1−x²)</td></tr>
+          <tr><td>arctan x</td><td>1/(1+x²)</td></tr>
+        </tbody>
+      </table>
+
+      <p style="margin-top:14px"><strong>Quy tắc tính đạo hàm:</strong></p>
+      <div class="formula-box">
+        <div class="formula-label">Quy tắc</div>
+        (u ± v)' = u' ± v' &nbsp;&nbsp;|&nbsp;&nbsp; (u·v)' = u'v + uv' &nbsp;&nbsp;|&nbsp;&nbsp; (u/v)' = (u'v − uv')/v²<br>
+        <strong>Quy tắc chuỗi:</strong> [f(g(x))]' = f'(g(x)) · g'(x)
+      </div>
+
+      <p style="margin-top:14px"><strong>Vi phân:</strong></p>
+      <ul>
+        <li>Vi phân cấp 1: dy = f'(x) dx</li>
+        <li>Vi phân cấp n: dⁿy = f⁽ⁿ⁾(x) dxⁿ</li>
+        <li><strong>Xấp xỉ tuyến tính:</strong> f(x₀ + Δx) ≈ f(x₀) + f'(x₀)·Δx</li>
+        <li><strong>Phương trình tiếp tuyến</strong> tại (x₀, f(x₀)): y = f(x₀) + f'(x₀)(x − x₀)</li>
+      </ul>
+
+      <p style="margin-top:14px"><strong>Tìm cực trị hàm 1 biến:</strong></p>
+      <ul>
+        <li><strong>Bước 1:</strong> f'(x) = 0 hoặc f'(x) không tồn tại → điểm tới hạn</li>
+        <li><strong>Đạo hàm bậc 1:</strong> Đổi dấu (+)→(−) = cực đại; (−)→(+) = cực tiểu; không đổi = không cực trị</li>
+        <li><strong>Đạo hàm bậc 2:</strong> f'(x₀)=0, f''(x₀)&lt;0 → cực đại; f''(x₀)&gt;0 → cực tiểu; f''(x₀)=0 → chưa kết luận được</li>
+      </ul>
+    </div>
+
+    <!-- 2.4 Tích phân suy rộng -->
+    <div class="subsection">
+      <div class="subsection-title">2.4 Tích phân suy rộng (Improper Integrals)</div>
+
+      <p><strong>Loại 1 — Cận vô hạn:</strong></p>
+      <div class="formula-box">
+        ∫<sub>a</sub><sup>+∞</sup> f(x) dx = lim<sub>b→+∞</sub> ∫<sub>a</sub><sup>b</sup> f(x) dx<br>
+        ∫<sub>−∞</sub><sup>b</sup> f(x) dx = lim<sub>a→−∞</sub> ∫<sub>a</sub><sup>b</sup> f(x) dx<br>
+        ∫<sub>−∞</sub><sup>+∞</sup> f(x) dx = ∫<sub>−∞</sub><sup>c</sup> + ∫<sub>c</sub><sup>+∞</sup>
+      </div>
+
+      <p style="margin-top:14px"><strong>Loại 2 — Hàm không bị chặn:</strong></p>
+      <div class="formula-box">
+        Nếu f(x) → ∞ khi x → b<sup>−</sup>: ∫<sub>a</sub><sup>b</sup> f(x) dx = lim<sub>ε→0⁺</sub> ∫<sub>a</sub><sup>b−ε</sup> f(x) dx
+      </div>
+
+      <p style="margin-top:14px"><strong>Tiêu chuẩn hội tụ:</strong></p>
+      <ul>
+        <li><strong>So sánh:</strong> 0 ≤ f ≤ g; ∫g hội tụ → ∫f hội tụ. f ≥ g ≥ 0; ∫g phân kỳ → ∫f phân kỳ.</li>
+        <li><strong>p-test:</strong> ∫<sub>1</sub><sup>+∞</sup> x<sup>−p</sup> dx hội tụ ⇔ p &gt; 1. &nbsp;∫<sub>0</sub><sup>1</sup> x<sup>−p</sup> dx hội tụ ⇔ p &lt; 1.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====================== PHẦN 3: VI TÍCH PHÂN NHIỀU BIẾN ====================== -->
+<section class="section" id="phan3">
+  <div class="section-header">
+    <span class="part-num">PHẦN III</span>
+    <h2>Vi Tích Phân Nhiều Biến</h2>
+  </div>
+  <div class="section-body">
+
+    <!-- 3.1 Hàm nhiều biến -->
+    <div class="subsection">
+      <div class="subsection-title">3.1 Hàm nhiều biến z = f(x, y)</div>
+
+      <p><strong>Miền xác định:</strong> Tập hợp các điểm (x, y) sao cho biểu thức f(x,y) có nghĩa (mẫu ≠ 0, căn bậc chẵn ≥ 0, log &gt; 0,…).</p>
+
+      <p style="margin-top:14px"><strong>Giới hạn:</strong></p>
+      <div class="formula-box">
+        lim<sub>(x,y)→(x₀,y₀)</sub> f(x,y) = L &nbsp;⇔&nbsp; f tiến về L theo <em>mọi đường</em> tiến về (x₀, y₀)
+      </div>
+      <div class="note">
+        <div class="note-title">⚠ Chứng minh giới hạn không tồn tại</div>
+        Chọn 2 đường tiến về (x₀, y₀) cho 2 kết quả khác nhau → giới hạn không tồn tại.
+      </div>
+    </div>
+
+    <!-- 3.2 Đạo hàm riêng & Vi phân toàn phần -->
+    <div class="subsection">
+      <div class="subsection-title">3.2 Đạo hàm riêng &amp; Vi phân toàn phần</div>
+
+      <p><strong>Đạo hàm riêng cấp 1:</strong></p>
+      <div class="formula-box">
+        ∂z/∂x = f'<sub>x</sub> = lim<sub>h→0</sub> [f(x+h, y) − f(x,y)]/h &nbsp;(y coi như hằng)<br>
+        ∂z/∂y = f'<sub>y</sub> = lim<sub>k→0</sub> [f(x, y+k) − f(x,y)]/k &nbsp;(x coi như hằng)
+      </div>
+
+      <p style="margin-top:14px"><strong>Đạo hàm riêng cấp 2:</strong></p>
+      <div class="formula-box">
+        f''<sub>xx</sub> = ∂²z/∂x² &nbsp;|&nbsp; f''<sub>yy</sub> = ∂²z/∂y²<br>
+        f''<sub>xy</sub> = ∂²z/∂x∂y &nbsp;|&nbsp; f''<sub>yx</sub> = ∂²z/∂y∂x
+      </div>
+      <div class="note">
+        <div class="note-title">Định lý Schwarz</div>
+        Nếu f''<sub>xy</sub> và f''<sub>yx</sub> liên tục thì f''<sub>xy</sub> = f''<sub>yx</sub>
+      </div>
+
+      <p style="margin-top:14px"><strong>Vi phân toàn phần:</strong></p>
+      <div class="formula-box">
+        dz = (∂z/∂x) dx + (∂z/∂y) dy = f'<sub>x</sub> dx + f'<sub>y</sub> dy<br>
+        d²z = f''<sub>xx</sub> dx² + 2f''<sub>xy</sub> dx dy + f''<sub>yy</sub> dy²
+      </div>
+
+      <p style="margin-top:14px"><strong>Xấp xỉ tuyến tính 2 biến:</strong></p>
+      <div class="formula-box">
+        f(x₀+Δx, y₀+Δy) ≈ f(x₀, y₀) + f'<sub>x</sub>·Δx + f'<sub>y</sub>·Δy
+      </div>
+
+      <p style="margin-top:14px"><strong>Hàm ẩn:</strong></p>
+      <ul>
+        <li>F(x, y) = 0 ⇒ y = y(x): &nbsp;&nbsp; dy/dx = −F'<sub>x</sub> / F'<sub>y</sub> &nbsp;(F'<sub>y</sub> ≠ 0)</li>
+        <li>F(x, y, z) = 0 ⇒ z = z(x, y): &nbsp;&nbsp; ∂z/∂x = −F'<sub>x</sub>/F'<sub>z</sub>; &nbsp; ∂z/∂y = −F'<sub>y</sub>/F'<sub>z</sub></li>
+      </ul>
+    </div>
+
+    <!-- 3.3 Cực trị -->
+    <div class="subsection">
+      <div class="subsection-title">3.3 Cực trị hàm nhiều biến</div>
+
+      <p><strong>3.3.1 Cực trị tự do (không ràng buộc):</strong></p>
+      <ul>
+        <li><strong>Bước 1:</strong> Giải f'<sub>x</sub>(x,y) = 0 và f'<sub>y</sub>(x,y) = 0 → điểm dừng (x₀, y₀)</li>
+        <li><strong>Bước 2:</strong> Tính A = f''<sub>xx</sub>, B = f''<sub>xy</sub>, C = f''<sub>yy</sub>, Δ = AC − B² tại (x₀, y₀)</li>
+      </ul>
+      <table>
+        <thead><tr><th>Δ</th><th>Điều kiện thêm</th><th>Kết luận</th></tr></thead>
+        <tbody>
+          <tr><td>Δ &gt; 0</td><td>A &lt; 0</td><td>Cực đại tại (x₀, y₀)</td></tr>
+          <tr><td>Δ &gt; 0</td><td>A &gt; 0</td><td>Cực tiểu tại (x₀, y₀)</td></tr>
+          <tr><td>Δ &lt; 0</td><td>—</td><td>Không là cực trị (yên ngựa)</td></tr>
+          <tr><td>Δ = 0</td><td>—</td><td>Chưa kết luận được</td></tr>
+        </tbody>
+      </table>
+
+      <p style="margin-top:16px"><strong>3.3.2 Cực trị có điều kiện — Phương pháp nhân tử Lagrange:</strong></p>
+      <p>Tìm cực trị của f(x, y) với ràng buộc g(x, y) = 0.</p>
+      <div class="formula-box">
+        <div class="formula-label">Hàm Lagrange</div>
+        L(x, y, λ) = f(x, y) + λ·g(x, y)<br><br>
+        Giải hệ: ∂L/∂x = 0 &nbsp;|&nbsp; ∂L/∂y = 0 &nbsp;|&nbsp; ∂L/∂λ = 0
+      </div>
+      <p style="margin-top:8px">Với 2 ràng buộc: L = f + λ₁g₁ + λ₂g₂, giải 5 phương trình.</p>
+
+      <p style="margin-top:14px"><strong>3.3.3 Cực trị tuyệt đối trên miền đóng:</strong></p>
+      <ul>
+        <li>Tìm điểm dừng trong miền</li>
+        <li>Tìm giá trị trên biên (mỗi cạnh biên là hàm 1 biến)</li>
+        <li>So sánh → giá trị lớn nhất = cực đại tuyệt đối, nhỏ nhất = cực tiểu tuyệt đối</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====================== TRẮC NGHIỆM ====================== -->
+<section class="section" id="tracnghiem">
+  <div class="section-header">
+    <span class="part-num">📝</span>
+    <h2>Trắc Nghiệm Ôn Tập</h2>
+  </div>
+  <div class="section-body">
+
+    <div class="quiz-header">
+      <span>🎯</span>
+      <div>
+        <strong>35 câu hỏi trắc nghiệm</strong> — 15 câu Phần 1 · 10 câu Phần 2 · 10 câu Phần 3
+        <p>Bấm <strong>"Hiện đáp án"</strong> bên dưới mỗi câu để xem đáp án đúng và giải thích.</p>
+      </div>
+    </div>
+
+    <!-- ===== QUIZ PHẦN 1 ===== -->
+    <h3 style="color:var(--primary);margin:28px 0 16px;font-size:1.05rem;">📘 Phần I — Đại Số Tuyến Tính</h3>
+
+    <!-- Q1: Loại ma trận -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">1</span>Ma trận vuông A cấp 3 thỏa Aᵀ = A. Ma trận A được gọi là ma trận gì?</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> Ma trận đơn vị</li>
+        <li><span class="opt-letter">B.</span> Ma trận đối xứng</li>
+        <li><span class="opt-letter">C.</span> Ma trận phản đối xứng</li>
+        <li><span class="opt-letter">D.</span> Ma trận chéo</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: B. Ma trận đối xứng</div>
+        <div class="explanation">Ma trận đối xứng được định nghĩa là ma trận thỏa Aᵀ = A (phần tử aᵢⱼ = aⱼᵢ). Ma trận phản đối xứng thỏa Aᵀ = −A. Ma trận đơn vị thỏa Aᵀ = A nhưng đặc biệt hơn (aᵢᵢ = 1, aᵢⱼ = 0 khi i ≠ j).</div>
+      </div>
+    </div>
+
+    <!-- Q2: Phép nhân ma trận -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">2</span>Cho A là ma trận 2×3 và B là ma trận 3×4. Ma trận AB có kích thước là:</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> 2×4</li>
+        <li><span class="opt-letter">B.</span> 3×3</li>
+        <li><span class="opt-letter">C.</span> 2×3</li>
+        <li><span class="opt-letter">D.</span> Không nhân được</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: A. 2×4</div>
+        <div class="explanation">Phép nhân ma trận AB thực hiện được khi số cột của A = số hàng của B. Ở đây A(2×3) · B(3×4) → kết quả là ma trận (2×4). Số hàng lấy từ A, số cột lấy từ B.</div>
+      </div>
+    </div>
+
+    <!-- Q3: Tính định thức cấp 2 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">3</span>Tính định thức det(A) với A = |3&nbsp;&nbsp;−1; 2&nbsp;&nbsp;5|.</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> 13</li>
+        <li><span class="opt-letter">B.</span> 17</li>
+        <li><span class="opt-letter">C.</span> −17</li>
+        <li><span class="opt-letter">D.</span> 7</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: B. 17</div>
+        <div class="explanation">det = a·d − b·c = 3·5 − (−1)·2 = 15 − (−2) = 15 + 2 = 17.</div>
+      </div>
+    </div>
+
+    <!-- Q4: Quy tắc Sarrus cấp 3 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">4</span>Tính định thức cấp 3: |1&nbsp;&nbsp;2&nbsp;&nbsp;3; 0&nbsp;&nbsp;4&nbsp;&nbsp;5; 1&nbsp;&nbsp;0&nbsp;&nbsp;6|.</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> 22</li>
+        <li><span class="opt-letter">B.</span> 1</li>
+        <li><span class="opt-letter">C.</span> −6</li>
+        <li><span class="opt-letter">D.</span> 42</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: A. 22</div>
+        <div class="explanation">Quy tắc Sarrus: det = 1·4·6 + 2·5·1 + 3·0·0 − (3·4·1 + 2·0·6 + 1·5·0) = 24 + 10 + 0 − (12 + 0 + 0) = 34 − 12 = 22.</div>
+      </div>
+    </div>
+
+    <!-- Q5: Phần bù đại số -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">5</span>Cho ma trận A cấp 3. Phần bù đại số A₂₃ (phần tử ở hàng 2, cột 3) bằng:</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> M₂₃</li>
+        <li><span class="opt-letter">B.</span> −M₂₃</li>
+        <li><span class="opt-letter">C.</span> (−1)²⁺³ · M₂₃</li>
+        <li><span class="opt-letter">D.</span> (−1)²⁺³ · det(A₂₃)</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: C. (−1)²⁺³ · M₂₃</div>
+        <div class="explanation">Phần bù đại số Aᵢⱼ = (−1)^{i+j} · Mᵢⱼ, trong đó Mᵢⱼ là định thức con xóa hàng i, cột j. Với i=2, j=3: (−1)^{2+3} = (−1)⁵ = −1. Vậy A₂₃ = −M₂₃.</div>
+      </div>
+    </div>
+
+    <!-- Q6: Tính chất định thức -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">6</span>Nếu đổi chỗ 2 hàng của một định thức cho nhau thì định thức sẽ:</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> Không thay đổi</li>
+        <li><span class="opt-letter">B.</span> Đổi dấu</li>
+        <li><span class="opt-letter">C.</span> Nhân thêm 2</li>
+        <li><span class="opt-letter">D.</span> Bằng 0</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: B. Đổi dấu</div>
+        <div class="explanation">Đây là tính chất 2 của định thức: đổi chỗ 2 hàng (hoặc 2 cột) cho nhau → định thức đổi dấu. Nếu đổi chỗ 2 lần → quay về giá trị ban đầu.</div>
+      </div>
+    </div>
+
+    <!-- Q7: Tính chất det(kA) -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">7</span>Cho det(A) = 2 với A là ma trận vuông cấp 3. Tính det(3A).</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> 6</li>
+        <li><span class="opt-letter">B.</span> 54</li>
+        <li><span class="opt-letter">C.</span> 18</li>
+        <li><span class="opt-letter">D.</span> 2 · 3³</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: B. 54</div>
+        <div class="explanation">Theo tính chất: det(kA) = kⁿ · det(A), với n là cấp ma trận. det(3A) = 3³ · 2 = 27 · 2 = 54.</div>
+      </div>
+    </div>
+
+    <!-- Q8: Hạng ma trận -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">8</span>Ma trận A cỡ 4×5 có rank(A) = 4. Hạng của A thỏa mãn:</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> rank(A) ≤ 4</li>
+        <li><span class="opt-letter">B.</span> rank(A) ≤ 5</li>
+        <li><span class="opt-letter">C.</span> rank(A) = min(4, 5) = 4</li>
+        <li><span class="opt-letter">D.</span> rank(A) = max(4, 5) = 5</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: C. rank(A) = min(4, 5) = 4</div>
+        <div class="explanation">Hạng của ma trận m×n luôn ≤ min(m, n). Ma trận 4×5 có rank ≤ min(4,5) = 4. Với rank(A) = 4 thì A có 4 dòng độc lập tuyến tính và det của một ma trận con 4×4 khác 0.</div>
+      </div>
+    </div>
+
+    <!-- Q9: Ma trận nghịch đảo -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">9</span>Cho A⁻¹ là ma trận nghịch đảo của A. Tính (A⁻¹)⁻¹.</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> A</li>
+        <li><span class="opt-letter">B.</span> Aᵀ</li>
+        <li><span class="opt-letter">C.</span> A⁻¹</li>
+        <li><span class="opt-letter">D.</span> I (ma trận đơn vị)</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: A. A</div>
+        <div class="explanation">Nghịch đảo của nghịch đảo = ma trận gốc: (A⁻¹)⁻¹ = A. Đây là tính chất cơ bản: A · A⁻¹ = I, nên A⁻¹ · A = I, chứng tỏ A là nghịch đảo của A⁻¹.</div>
+      </div>
+    </div>
+
+    <!-- Q10: Hệ phương trình tuyến tính -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">10</span>Cho hệ Ax = b với A là ma trận vuông cấp 3 và det(A) = 0. Hệ có nghiệm duy nhất không?</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> Luôn có nghiệm duy nhất</li>
+        <li><span class="opt-letter">B.</span> Vô nghiệm</li>
+        <li><span class="opt-letter">C.</span> Vô số nghiệm</li>
+        <li><span class="opt-letter">D.</span> Không xác định được (có thể vô nghiệm hoặc vô số nghiệm)</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: D. Không xác định được</div>
+        <div class="explanation">det(A) = 0 → rank(A) < n → không thể dùng quy tắc Cramer hay A⁻¹. Theo Kronecker-Capelli: nếu rank(A) = rank(A|b) < n → vô số nghiệm; nếu rank(A) ≠ rank(A|b) → vô nghiệm. Cần thêm thông tin về vector b để kết luận.</div>
+      </div>
+    </div>
+
+    <!-- Q11: Quy tắc Cramer -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">11</span>Áp dụng quy tắc Cramer cho hệ Ax = b, với det(A) = 4 ≠ 0. Gọi D₁ là định thức thay cột 1 bằng vector b. Nếu D₁ = 8 thì x₁ bằng:</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> 2</li>
+        <li><span class="opt-letter">B.</span> 8</li>
+        <li><span class="opt-letter">C.</span> 1/2</li>
+        <li><span class="opt-letter">D.</span> 4</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: A. 2</div>
+        <div class="explanation">Theo quy tắc Cramer: xᵢ = Dᵢ / D, với D = det(A). Vậy x₁ = D₁ / D = 8 / 4 = 2.</div>
+      </div>
+    </div>
+
+    <!-- Q12: det(AB) -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">12</span>Cho det(A) = 3 và det(B) = −2. Tính det(A · B⁻¹).</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> 3</li>
+        <li><span class="opt-letter">B.</span> −3/2</li>
+        <li><span class="opt-letter">C.</span> −6</li>
+        <li><span class="opt-letter">D.</span> −1/2</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: B. −3/2</div>
+        <div class="explanation">det(AB⁻¹) = det(A) · det(B⁻¹) = det(A) · (1/det(B)) = 3 · (1/−2) = −3/2. (Chú ý: det(B⁻¹) = 1/det(B) theo tính chất định thức.)</div>
+      </div>
+    </div>
+
+    <!-- Q13: Ma trận đặc biệt -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">13</span>Ma trận tam giác trên U kích thước 3×3 có các phần tử trên đường chéo chính lần lượt là 2, 5, −3. Tính det(U).</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> 30</li>
+        <li><span class="opt-letter">B.</span> −30</li>
+        <li><span class="opt-letter">C.</span> 0</li>
+        <li><span class="opt-letter">D.</span> 4</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: B. −30</div>
+        <div class="explanation">Định thức ma trận tam giác (trên hoặc dưới) = tích các phần tử đường chéo chính. det(U) = 2 · 5 · (−3) = −30.</div>
+      </div>
+    </div>
+
+    <!-- Q14: Ma trận chuyển vị -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">14</span>Cho A và B là hai ma trận vuông cùng cấp. Đẳng thức nào sau đây ĐÚNG?</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> (A + B)ᵀ = Aᵀ + Bᵀ</li>
+        <li><span class="opt-letter">B.</span> (AB)ᵀ = Aᵀ · Bᵀ</li>
+        <li><span class="opt-letter">C.</span> (Aᵀ)ᵀ = A⁻¹</li>
+        <li><span class="opt-letter">D.</span> det(Aᵀ) = −det(A)</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: A. (A + B)ᵀ = Aᵀ + Bᵀ</div>
+        <div class="explanation">(A+B)ᵀ = Aᵀ + Bᵀ là tính chất đúng. Các đáp án khác SAI: (AB)ᵀ = BᵀAᵀ (thứ tự đảo); (Aᵀ)ᵀ = A (chuyển vị 2 lần về gốc); det(Aᵀ) = det(A) (không đổi dấu).</div>
+      </div>
+    </div>
+
+    <!-- Q15: Ma trận nghịch đảo & Gauss-Jordan -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">15</span>Để tìm ma trận nghịch đảo A⁻¹ bằng phương pháp Gauss–Jordan, ta bắt đầu từ ma trận nào?</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> [A | A⁻¹]</li>
+        <li><span class="opt-letter">B.</span> [A | I]</li>
+        <li><span class="opt-letter">C.</span> [I | A]</li>
+        <li><span class="opt-letter">D.</span> [A⁻¹ | A]</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: B. [A | I]</div>
+        <div class="explanation">Phương pháp Gauss–Jordan: ghép ma trận đơn vị I vào bên phải A: [A | I], rồi dùng phép biến đổi sơ cấp dòng để đưa về [I | A⁻¹]. Nếu A không khả nghịch, không thể thu được I bên trái.</div>
+      </div>
+    </div>
+
+    <!-- ===== QUIZ PHẦN 2 ===== -->
+    <h3 style="color:var(--primary);margin:36px 0 16px;font-size:1.05rem;">📗 Phần II — Vi Tích Phân Một Biến</h3>
+
+    <!-- Q16 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">16</span>Tính lim<sub>x→0</sub> sin(3x)/x.</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> 0</li>
+        <li><span class="opt-letter">B.</span> 1</li>
+        <li><span class="opt-letter">C.</span> 3</li>
+        <li><span class="opt-letter">D.</span> 1/3</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: C. 3</div>
+        <div class="explanation">Dùng giới hạn cơ bản: lim sin(u)/u = 1. lim sin(3x)/x = lim [sin(3x)/(3x)] · 3 = 1 · 3 = 3.</div>
+      </div>
+    </div>
+
+    <!-- Q17 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">17</span>Dạng vô định nào KHÔNG thể dùng trực tiếp quy tắc L'Hôpital?</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> 0/0</li>
+        <li><span class="opt-letter">B.</span> 1<sup>∞</sup></li>
+        <li><span class="opt-letter">C.</span> ∞/∞</li>
+        <li><span class="opt-letter">D.</span> ∞ − ∞</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: B. 1<sup>∞</sup></div>
+        <div class="explanation">L'Hôpital chỉ áp dụng trực tiếp cho 0/0 và ∞/∞. Dạng 1<sup>∞</sup> cần biến đổi: u<sup>v</sup> = e<sup>lim(v·ln u)</sup> trước, đưa về dạng 0·∞ rồi mới dùng L'Hôpital.</div>
+      </div>
+    </div>
+
+    <!-- Q18 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">18</span>Cho f(x) = x³ − 3x + 1. Điểm nào sau đây là điểm cực tiểu?</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> x = 1</li>
+        <li><span class="opt-letter">B.</span> x = −1</li>
+        <li><span class="opt-letter">C.</span> x = 0</li>
+        <li><span class="opt-letter">D.</span> x = 2</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: A. x = 1</div>
+        <div class="explanation">f'(x) = 3x² − 3 = 0 → x = ±1. f''(x) = 6x. Tại x = 1: f''(1) = 6 &gt; 0 → cực tiểu. Tại x = −1: f''(−1) = −6 &lt; 0 → cực đại.</div>
+      </div>
+    </div>
+
+    <!-- Q19 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">19</span>Đạo hàm của f(x) = e<sup>x</sup> · ln x là:</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> e<sup>x</sup> · (1/x)</li>
+        <li><span class="opt-letter">B.</span> e<sup>x</sup> · ln x + e<sup>x</sup>/x</li>
+        <li><span class="opt-letter">C.</span> e<sup>x</sup> · ln x − e<sup>x</sup>/x</li>
+        <li><span class="opt-letter">D.</span> e<sup>x</sup>/x</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: B. e<sup>x</sup> · ln x + e<sup>x</sup>/x</div>
+        <div class="explanation">Dùng quy tắc nhân: (u·v)' = u'v + uv'. u = e<sup>x</sup> → u' = e<sup>x</sup>; v = ln x → v' = 1/x. Vậy: e<sup>x</sup>·ln x + e<sup>x</sup>·(1/x).</div>
+      </div>
+    </div>
+
+    <!-- Q20 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">20</span>Cho f(x) liên tục trên [0, 2] và f(0)·f(2) &lt; 0. Theo định lý Bolzano, kết luận nào đúng?</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> f có cực đại trên [0, 2]</li>
+        <li><span class="opt-letter">B.</span> ∃c ∈ (0, 2): f(c) = 0</li>
+        <li><span class="opt-letter">C.</span> f có cực tiểu trên [0, 2]</li>
+        <li><span class="opt-letter">D.</span> f(0) = f(2)</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: B. ∃c ∈ (0, 2): f(c) = 0</div>
+        <div class="explanation">Định lý Bolzano: f liên tục trên [a,b] và f(a)·f(b) &lt; 0 → ∃c ∈ (a,b): f(c) = 0. Điều kiện f(0)·f(2) &lt; 0 tương đương f(0) và f(2) trái dấu.</div>
+      </div>
+    </div>
+
+    <!-- Q21 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">21</span>Khi x → 0, đâu là tương đương đúng?</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> sin x ~ 1/x</li>
+        <li><span class="opt-letter">B.</span> 1 − cos x ~ x</li>
+        <li><span class="opt-letter">C.</span> e<sup>x</sup> − 1 ~ x</li>
+        <li><span class="opt-letter">D.</span> ln(1+x) ~ 1/x</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: C. e<sup>x</sup> − 1 ~ x</div>
+        <div class="explanation">Theo bảng tương đương bậc nhỏ: e<sup>x</sup> − 1 ~ x (khi x→0). Các đáp án khác sai: sin x ~ x (không phải 1/x); 1 − cos x ~ x²/2 (không phải x); ln(1+x) ~ x (không phải 1/x).</div>
+      </div>
+    </div>
+
+    <!-- Q22 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">22</span>Tích phân suy rộng ∫<sub>1</sub><sup>+∞</sup> x<sup>−2</sup> dx hội tụ hay phân kỳ?</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> Hội tụ (bằng 1)</li>
+        <li><span class="opt-letter">B.</span> Hội tụ (bằng 2)</li>
+        <li><span class="opt-letter">C.</span> Phân kỳ</li>
+        <li><span class="opt-letter">D.</span> Hội tụ (bằng ∞)</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: A. Hội tụ (bằng 1)</div>
+        <div class="explanation">Áp dụng p-test: ∫<sub>1</sub><sup>+∞</sup> x<sup>−p</sup> dx hội tụ ⇔ p &gt; 1. Ở đây p = 2 &gt; 1 → hội tụ. ∫ x<sup>−2</sup> dx = [−1/x]<sub>1</sub><sup>+∞</sup> = 0 − (−1) = 1.</div>
+      </div>
+    </div>
+
+    <!-- Q23 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">23</span>Đạo hàm của f(x) = arctan x là:</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> 1/(1+x²)</li>
+        <li><span class="opt-letter">B.</span> 1/√(1−x²)</li>
+        <li><span class="opt-letter">C.</span> −1/(1+x²)</li>
+        <li><span class="opt-letter">D.</span> 1/(1−x²)</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: A. 1/(1+x²)</div>
+        <div class="explanation">Đạo hàm arctan x = 1/(1+x²). Đáp án B là arcsin, đáp án C là arccot, đáp án D không phải đạo hàm của hàm lượng giác ngược nào.</div>
+      </div>
+    </div>
+
+    <!-- Q24 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">24</span>Tính vi phân dy của y = x³ − 2x + 1.</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> dy = (3x² − 2) dx</li>
+        <li><span class="opt-letter">B.</span> dy = 3x² − 2</li>
+        <li><span class="opt-letter">C.</span> dy = 6x dx</li>
+        <li><span class="opt-letter">D.</span> dy = (x³ − 2x) dx</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: A. dy = (3x² − 2) dx</div>
+        <div class="explanation">dy = f'(x) dx. f'(x) = 3x² − 2. Vậy dy = (3x² − 2) dx.</div>
+      </div>
+    </div>
+
+    <!-- Q25 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">25</span>Tính lim<sub>x→+∞</sub> (3x² + 1)/(x² − 2x).</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> 0</li>
+        <li><span class="opt-letter">B.</span> 1</li>
+        <li><span class="opt-letter">C.</span> 3</li>
+        <li><span class="opt-letter">D.</span> +∞</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: C. 3</div>
+        <div class="explanation">Dạng ∞/∞. Chia cả tử và mẫu cho x²: (3 + 1/x²)/(1 − 2/x) → (3 + 0)/(1 − 0) = 3.</div>
+      </div>
+    </div>
+
+    <!-- ===== QUIZ PHẦN 3 ===== -->
+    <h3 style="color:var(--primary);margin:36px 0 16px;font-size:1.05rem;">📕 Phần III — Vi Tích Phân Nhiều Biến</h3>
+
+    <!-- Q26 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">26</span>Cho z = f(x, y) = x²y + sin x. Tính ∂z/∂x.</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> 2xy + cos x</li>
+        <li><span class="opt-letter">B.</span> 2xy</li>
+        <li><span class="opt-letter">C.</span> x² + cos x</li>
+        <li><span class="opt-letter">D.</span> 2x + cos x</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: A. 2xy + cos x</div>
+        <div class="explanation">∂z/∂x = đạo hàm riêng theo x, y coi như hằng. ∂/∂x(x²y) = 2xy; ∂/∂x(sin x) = cos x. Tổng = 2xy + cos x.</div>
+      </div>
+    </div>
+
+    <!-- Q28 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">28</span>Vi phân toàn phần dz của z = x³ + xy² tại (1, 2) với dx = 0.02, dy = 0.01 là:</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> 0.18</li>
+        <li><span class="opt-letter">B.</span> 0.9</li>
+        <li><span class="opt-letter">C.</span> 0.12</li>
+        <li><span class="opt-letter">D.</span> 0.09</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: A. 0.18</div>
+        <div class="explanation">∂z/∂x = 3x² + y²; ∂z/∂y = 2xy. Tại (1,2): ∂z/∂x = 3·1² + 2² = 3 + 4 = 7; ∂z/∂y = 2·1·2 = 4. dz = 7·0.02 + 4·0.01 = 0.14 + 0.04 = 0.18.</div>
+      </div>
+    </div>
+
+    <!-- Q29 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">29</span>Cho F(x, y) = x² + y² − 4 = 0. Tính dy/dx theo đạo hàm hàm ẩn.</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> −x/y</li>
+        <li><span class="opt-letter">B.</span> −y/x</li>
+        <li><span class="opt-letter">C.</span> x/y</li>
+        <li><span class="opt-letter">D.</span> −x²/y²</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: A. −x/y</div>
+        <div class="explanation">dy/dx = −F'<sub>x</sub>/F'<sub>y</sub>. F'<sub>x</sub> = 2x, F'<sub>y</sub> = 2y. Vậy dy/dx = −2x/2y = −x/y.</div>
+      </div>
+    </div>
+
+    <!-- Q36 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">36</span>Điểm (0, 0) là điểm cực trị của f(x, y) = x² + y² không?</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> Là cực đại</li>
+        <li><span class="opt-letter">B.</span> Là cực tiểu</li>
+        <li><span class="opt-letter">C.</span> Là điểm yên ngựa</li>
+        <li><span class="opt-letter">D.</span> Không phải cực trị</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: B. Là cực tiểu</div>
+        <div class="explanation">f'<sub>x</sub> = 2x = 0 → x = 0; f'<sub>y</sub> = 2y = 0 → y = 0 → điểm dừng (0,0). A = f''<sub>xx</sub> = 2, B = f''<sub>xy</sub> = 0, C = f''<sub>yy</sub> = 2. Δ = AC − B² = 4 &gt; 0, A = 2 &gt; 0 → cực tiểu.</div>
+      </div>
+    </div>
+
+    <!-- Q31 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">31</span>Cho F(x, y, z) = x + y + z − 3 = 0. Tính ∂z/∂x.</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> −1</li>
+        <li><span class="opt-letter">B.</span> 1</li>
+        <li><span class="opt-letter">C.</span> 0</li>
+        <li><span class="opt-letter">D.</span> −x/z</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: A. −1</div>
+        <div class="explanation">∂z/∂x = −F'<sub>x</sub>/F'<sub>z</sub>. F'<sub>x</sub> = 1, F'<sub>z</sub> = 1. Vậy ∂z/∂x = −1/1 = −1.</div>
+      </div>
+    </div>
+
+    <!-- Q32 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">32</span>Trong phương pháp nhân tử Lagrange, hàm L được định nghĩa là:</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> L = f − λg</li>
+        <li><span class="opt-letter">B.</span> L = f · g</li>
+        <li><span class="opt-letter">C.</span> L = f + λg</li>
+        <li><span class="opt-letter">D.</span> L = f / g</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: C. L = f + λg</div>
+        <div class="explanation">Hàm Lagrange: L(x, y, λ) = f(x, y) + λ·g(x, y), với g(x, y) = 0 là ràng buộc. Giải hệ ∂L/∂x = ∂L/∂y = ∂L/∂λ = 0.</div>
+      </div>
+    </div>
+
+    <!-- Q33 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">33</span>Cho z = x² − y². Tại điểm (0, 0), loại điểm là gì?</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> Cực đại</li>
+        <li><span class="opt-letter">B.</span> Cực tiểu</li>
+        <li><span class="opt-letter">C.</span> Điểm yên ngựa</li>
+        <li><span class="opt-letter">D.</span> Không có điểm tới hạn</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: C. Điểm yên ngựa</div>
+        <div class="explanation">f'<sub>x</sub> = 2x = 0 → x = 0; f'<sub>y</sub> = −2y = 0 → y = 0 → (0,0). A = f''<sub>xx</sub> = 2, B = f''<sub>xy</sub> = 0, C = f''<sub>yy</sub> = −2. Δ = AC − B² = (2)(−2) − 0 = −4 &lt; 0 → điểm yên ngựa (saddle point).</div>
+      </div>
+    </div>
+
+    <!-- Q34 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">34</span>Cho f(x, y) = xy. Xét cực trị có điều kiện x + y = 2 bằng Lagrange. Nghiệm (x, y) là:</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> (1, 1)</li>
+        <li><span class="opt-letter">B.</span> (2, 0)</li>
+        <li><span class="opt-letter">C.</span> (0, 2)</li>
+        <li><span class="opt-letter">D.</span> (0, 0)</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: A. (1, 1)</div>
+        <div class="explanation">L = xy + λ(x + y − 2). ∂L/∂x = y + λ = 0 → λ = −y. ∂L/∂y = x + λ = 0 → λ = −x. Vậy y = x. Kết hợp x + y = 2 → x = y = 1.</div>
+      </div>
+    </div>
+
+    <!-- Q35 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">35</span>Tính ∂²z/∂x∂y của z = x³y².</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> 6x²y</li>
+        <li><span class="opt-letter">B.</span> 6x²y²</li>
+        <li><span class="opt-letter">C.</span> 6xy</li>
+        <li><span class="opt-letter">D.</span> 3x²y²</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: A. 6x²y</div>
+        <div class="explanation">∂z/∂y = x³ · 2y = 2x³y. ∂²z/∂x∂y = ∂/∂x(2x³y) = 2 · 3x² · y = 6x²y. (Theo Schwarz, ∂²z/∂x∂y = ∂²z/∂y∂x.)</div>
+      </div>
+    </div>
+
+    <!-- Q30 -->
+    <div class="question">
+      <div class="q-text"><span class="q-num">30</span>Cho z = f(x, y) = x² + 2y². Tìm cực trị.</div>
+      <ul class="options">
+        <li><span class="opt-letter">A.</span> Cực đại tại (0, 0)</li>
+        <li><span class="opt-letter">B.</span> Cực tiểu tại (0, 0)</li>
+        <li><span class="opt-letter">C.</span> Điểm yên ngựa tại (0, 0)</li>
+        <li><span class="opt-letter">D.</span> Không có cực trị</li>
+      </ul>
+      <button class="reveal-btn" onclick="reveal(this)">Hiện đáp án</button>
+      <div class="answer-box">
+        <div class="correct-line">✅ Đáp án: B. Cực tiểu tại (0, 0)</div>
+        <div class="explanation">f'<sub>x</sub> = 2x = 0 → x = 0; f'<sub>y</sub> = 4y = 0 → y = 0 → (0,0). A = f''<sub>xx</sub> = 2, B = f''<sub>xy</sub> = 0, C = f''<sub>yy</sub> = 4. Δ = AC − B² = 8 &gt; 0, A = 2 &gt; 0 → cực tiểu tại (0, 0) với giá trị f(0,0) = 0.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====================== BẢNG CÔNG THỨC ====================== -->
+<section class="summary-section">
+  <div class="summary-header">📋 Bảng Tổng Hợp Công Thức</div>
+  <div class="summary-body">
+    <table>
+      <thead><tr><th>Chủ đề</th><th>Công thức</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Định thức cấp 2</strong></td><td>|a b; c d| = ad − bc</td></tr>
+        <tr><td><strong>Quy tắc Cramer</strong></td><td>xᵢ = Dᵢ / D</td></tr>
+        <tr><td><strong>Kronecker-Capelli</strong></td><td>r(A) = r(A|b) → có nghiệm</td></tr>
+        <tr><td><strong>Nghịch đảo</strong></td><td>A⁻¹ = adj(A) / det(A)</td></tr>
+        <tr><td><strong>Giới hạn cơ bản</strong></td><td>lim sin x/x = 1; lim (1+x)^(1/x) = e</td></tr>
+        <tr><td><strong>L'Hôpital</strong></td><td>lim f/g = lim f'/g' (dạng 0/0, ∞/∞)</td></tr>
+        <tr><td><strong>Vi phân 1 biến</strong></td><td>dy = f'(x)dx</td></tr>
+        <tr><td><strong>Tích phân suy rộng loại 1</strong></td><td>∫₁^∞ x⁻ᵖ dx hội tụ ⇔ p &gt; 1</td></tr>
+        <tr><td><strong>Đạo hàm riêng</strong></td><td>∂z/∂x, ∂z/∂y</td></tr>
+        <tr><td><strong>Vi phân toàn phần</strong></td><td>dz = f'ₓdx + f'ᵧdy</td></tr>
+        <tr><td><strong>Hàm ẩn 2 biến</strong></td><td>dy/dx = −F'ₓ / F'ᵧ</td></tr>
+        <tr><td><strong>Cực trị tự do</strong></td><td>Δ = A·C − B² &gt; 0, A &gt; 0 → cực tiểu</td></tr>
+        <tr><td><strong>Lagrange</strong></td><td>∇f = λ∇g</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+</main>
+
+<!-- Back to top -->
+<a href="#" class="back-top" title="Lên đầu trang">↑</a>
+
+<script>
+function reveal(btn) {
+  var box = btn.nextElementSibling;
+  if (box.classList.contains('show')) return;
+  box.classList.add('show');
+  btn.textContent = 'Đã hiện đáp án';
+  btn.classList.add('revealed');
+}
+</script>
+
+</body>
+</html>
